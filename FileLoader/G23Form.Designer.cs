@@ -55,9 +55,10 @@
             // 
             // usersRadDropDownList
             // 
+            this.usersRadDropDownList.AutoSize = false;
             this.usersRadDropDownList.Location = new System.Drawing.Point(255, 370);
             this.usersRadDropDownList.Name = "usersRadDropDownList";
-            this.usersRadDropDownList.Size = new System.Drawing.Size(255, 27);
+            this.usersRadDropDownList.Size = new System.Drawing.Size(250, 30);
             this.usersRadDropDownList.TabIndex = 2;
             // 
             // G23Form
