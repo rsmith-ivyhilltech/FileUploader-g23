@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+    <FieldSetsMapping>
+        <FieldSet>
+            <RangeName>RangeName</RangeName>           
+            <ExcelColumnName>ExcelColumnName</ExcelColumnName>   <!--don't really need this, friendly name for the grid??-->
+            <SharePointListField>SharePointListField</SharePointListField>            
+            <Mappings>              
+                <Map>
+                    <RangeName>ZAI_NumberOfDocuments</RangeName>
+                    <ExcelColumnName>Number of Documents</ExcelColumnName>
+                    <SharePointListField>Docs</SharePointListField>                    
+                </Map>
+                <Map>
+                    <RangeName>ZAI_NumberOfImages</RangeName>                   
+                    <ExcelColumnName>Number of Images</ExcelColumnName>
+                    <SharePointListField>Images</SharePointListField>                
+               </Map>
+              <Map>
+                <RangeName>ZAI_NumberOfScannedImages</RangeName>
+                <ExcelColumnName>Number of Images Scanned</ExcelColumnName>
+                <SharePointListField>Scanned</SharePointListField>
+              </Map>            
+              <Map>
+                <RangeName>ZAI_21aErrors</RangeName>
+                <ExcelColumnName>Data Extractions (526 only) Incorrect Characters Extracted (2.1A)</ExcelColumnName>
+                <SharePointListField>2.1A</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_21bErrors</RangeName>
+                <ExcelColumnName>Data Extractions (526 only) Total Characters Extracted (2.1A)</ExcelColumnName>
+                <SharePointListField>2.1B</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_31Errors</RangeName>
+                <ExcelColumnName>Veteran's Name(3.1)</ExcelColumnName>
+                <SharePointListField>3.01</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_32Errors</RangeName>
+                <ExcelColumnName>File#(3.2)</ExcelColumnName>
+                <SharePointListField>3.02</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_33Errors</RangeName>
+                <ExcelColumnName>Document Type(3.3)</ExcelColumnName>
+                <SharePointListField>3.03</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_34Errors</RangeName>
+                <ExcelColumnName>Date of Receipt(3.4)</ExcelColumnName>
+                <SharePointListField>3.04</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_401Errors</RangeName>
+                <ExcelColumnName>ImageDoesnot Exist(4.1)</ExcelColumnName>
+                <SharePointListField>4.01</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_402Errors</RangeName>
+                <ExcelColumnName>Illigible(4.2)</ExcelColumnName>
+                <SharePointListField>4.02</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_403Errors</RangeName>
+                <ExcelColumnName>Skewed/Data Loss(4.3)</ExcelColumnName>
+                <SharePointListField>4.03</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_404Errors</RangeName>
+                <ExcelColumnName>Incorrect Orientation(4.4)</ExcelColumnName>
+                <SharePointListField>4.04</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_405Errors</RangeName>
+                <ExcelColumnName>Blank Images Not Deleted(4.5)</ExcelColumnName>
+                <SharePointListField>4.05</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_406Errors</RangeName>
+                <ExcelColumnName>Bleed Throughs(4.6)</ExcelColumnName>
+                <SharePointListField>4.06</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_407Errors</RangeName>
+                <ExcelColumnName>Contails Items Not for Conversion(4.7)</ExcelColumnName>
+                <SharePointListField>4.07</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_408Errors</RangeName>
+                <ExcelColumnName>Use of Best Copy(4.8)</ExcelColumnName>
+                <SharePointListField>4.08</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_409Errors</RangeName>
+                <ExcelColumnName>X Not on Page(4.9)</ExcelColumnName>
+                <SharePointListField>4.09</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_410Errors</RangeName>
+                <ExcelColumnName>Split Incorrectly(4.10)</ExcelColumnName>
+                <SharePointListField>4.10</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_DocumentsThatFailedIndexing</RangeName>
+                <ExcelColumnName>Douments That Failed Indexing</ExcelColumnName>
+                <SharePointListField>Index Errors</SharePointListField>
+              </Map>
+              <Map>
+                <RangeName>ZAI_DocumentsThatFailedImageQuality</RangeName>
+                <ExcelColumnName>Douments That Failed Image Quality</ExcelColumnName>
+                <SharePointListField>Image Errors</SharePointListField>
+              </Map>              
+            </Mappings>
+     </FieldSet>
+</FieldSetsMapping>
