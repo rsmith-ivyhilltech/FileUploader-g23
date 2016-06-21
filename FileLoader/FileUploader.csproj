@@ -138,6 +138,9 @@
     <Content Include="FieldSets.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="FieldSetsG23.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\ProgressUpload.gif" />
     <None Include="Resources\ProgressBrowse.gif" />
   </ItemGroup>
