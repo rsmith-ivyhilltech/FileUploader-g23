@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(G23Form));
-            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition1 = new Telerik.WinControls.UI.TableViewDefinition();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition4 = new Telerik.WinControls.UI.TableViewDefinition();
             this.txtFilePath = new Telerik.WinControls.UI.RadTextBoxControl();
             this.label1 = new System.Windows.Forms.Label();
             this.usersRadDropDownList = new Telerik.WinControls.UI.RadDropDownList();
@@ -40,12 +40,14 @@
             this.dateUploaded = new Telerik.WinControls.UI.RadDateTimePicker();
             this.lblDate = new System.Windows.Forms.Label();
             this.radGrid = new Telerik.WinControls.UI.RadGridView();
+            this.progressIndicator = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtFilePath)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.usersRadDropDownList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.progressIndicatorBrowse)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateUploaded)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radGrid.MasterTemplate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.progressIndicator)).BeginInit();
             this.SuspendLayout();
             // 
             // txtFilePath
@@ -97,6 +99,7 @@
             this.btnUploadFile.TabIndex = 23;
             this.btnUploadFile.Text = "Upload File";
             this.btnUploadFile.UseVisualStyleBackColor = false;
+            this.btnUploadFile.Click += new System.EventHandler(this.btnUploadFile_Click);
             // 
             // progressIndicatorBrowse
             // 
@@ -147,18 +150,28 @@
             // 
             // 
             this.radGrid.MasterTemplate.AllowAddNewRow = false;
-            this.radGrid.MasterTemplate.ViewDefinition = tableViewDefinition1;
+            this.radGrid.MasterTemplate.ViewDefinition = tableViewDefinition4;
             this.radGrid.Name = "radGrid";
             this.radGrid.ReadOnly = true;
             this.radGrid.Size = new System.Drawing.Size(1000, 150);
             this.radGrid.TabIndex = 33;
             this.radGrid.Text = "Data Grid";
             // 
+            // progressIndicator
+            // 
+            this.progressIndicator.Image = global::FileLoader.Properties.Resources.ProgressUpload;
+            this.progressIndicator.Location = new System.Drawing.Point(334, 550);
+            this.progressIndicator.Name = "progressIndicator";
+            this.progressIndicator.Size = new System.Drawing.Size(70, 70);
+            this.progressIndicator.TabIndex = 34;
+            this.progressIndicator.TabStop = false;
+            // 
             // G23Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1192, 773);
+            this.Controls.Add(this.progressIndicator);
             this.Controls.Add(this.radGrid);
             this.Controls.Add(this.lblDate);
             this.Controls.Add(this.dateUploaded);
@@ -179,6 +192,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dateUploaded)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radGrid.MasterTemplate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.progressIndicator)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -196,5 +210,6 @@
         private Telerik.WinControls.UI.RadDateTimePicker dateUploaded;
         private System.Windows.Forms.Label lblDate;
         private Telerik.WinControls.UI.RadGridView radGrid;
+        private System.Windows.Forms.PictureBox progressIndicator;
     }
 }

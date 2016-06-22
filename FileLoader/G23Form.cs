@@ -16,6 +16,7 @@ using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
 using Telerik.WinControls.UI;
+using OfficeOpenXml;
 
 
 namespace FileLoader
@@ -37,14 +38,10 @@ namespace FileLoader
             this.OUser = user;
 
             dateUploaded.Text = System.DateTime.Now.ToShortDateString();
-            //this.progressIndicator.Image = null;
+            this.progressIndicator.Image = null;
             this.progressIndicatorBrowse.Image = null;
 
             InitializeDynamicUserComboBox();
-
-            //Initialize GridView         
-            fieldMappings = ParseXML();
-            InitializeDataGridView(fieldMappings);
         }
 
 
@@ -90,28 +87,14 @@ namespace FileLoader
         /// Initializes Data GridView
         /// </summary>
         /// <param name="mappings"></param>
-        private void InitializeDataGridView(List<Mapping> mappings)
+        private void InitializeDataGridView()
         {
             radGrid.AutoGenerateColumns = false;
             radGrid.ShowColumnHeaders = true;
             DataGridViewCellStyle columnHeaderStyle = new DataGridViewCellStyle();
             columnHeaderStyle.BackColor = Color.Beige;
             columnHeaderStyle.Font = new System.Drawing.Font("Verdana", 10, FontStyle.Bold);
-            //radGrid.MasterTemplate.AutoSizeColumnsMode = GridViewAutoSizeColumnsMode.Fill;
-
-            for (int i = 0; i < mappings.Count; i++)
-            {
-
-                GridViewTextBoxColumn textBoxColumn = new GridViewTextBoxColumn();
-                textBoxColumn.Name = mappings[i].SharePointListField;
-                textBoxColumn.HeaderText = mappings[i].ExcelColumnName;
-                textBoxColumn.FieldName = mappings[i].RangeName;
-                textBoxColumn.MaxLength = 50;
-                textBoxColumn.TextAlignment = ContentAlignment.BottomRight;
-                textBoxColumn.Width = 250;
-                radGrid.MasterTemplate.Columns.Add(textBoxColumn);
-
-            }
+            radGrid.MasterTemplate.BestFitColumns();
         }
 
 
@@ -130,29 +113,44 @@ namespace FileLoader
                 openFile.Filter = "(.xlsx)|*.xlsx";
                 if (openFile.ShowDialog() == DialogResult.OK)
                 {
-
-                    //progressBar.Visible = true;
-                    //progressBar.Style = ProgressBarStyle.Marquee;
-                    //System.Threading.Thread thread = new System.Threading.Thread(new System.Threading.ThreadStart(LoadData(excelSheet)));
-                    //thread.Start();
-
+                    //FileInfo newFile = new FileInfo(openFile.FileName);
                     this.progressIndicatorBrowse.Image = Properties.Resources.ProgressBrowse;
 
                     txtFilePath.Text = openFile.FileName;
-                    Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
-                    Microsoft.Office.Interop.Excel.Workbook excelBook = excelApp.Workbooks.Open(txtFilePath.Text.ToString(), 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
-                    //Microsoft.Office.Interop.Excel.Worksheet excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelBook.Worksheets.get_Item(Convert.ToInt32(ConfigurationManager.AppSettings["SpreadSheetIndex"])); ;
-                    //LoadData(excelSheet);
+                    //begin eeplus test
+                    ExcelPackage pck = new ExcelPackage(openFile.OpenFile());
+                    
+                    var activeWorkSheet = pck.Workbook.Worksheets["Summary"];
 
-                    List<Name> namedRanges = excelBook.GetNamedRanges();
-                    LoadData(namedRanges);
 
-                    //Dispose Excel Objects                  
-                    excelBook.Close(0);
-                    excelApp.Quit();
+                    var ColumnNameRange = activeWorkSheet.Cells["B3:DC3"];
+                    var TotalNameRange = activeWorkSheet.Cells["B4:DC4"];
+                    //string firstoutput = activeWorkSheet.Cells["B2"].Value.ToString();
+                    //MessageBox.Show(firstoutput);
+                    System.Data.DataTable previewDT = new System.Data.DataTable();
+                    foreach (var cell in ColumnNameRange)
+                    {
+                        previewDT.Columns.Add(cell.GetValue<string>(), typeof(string));
+                    }
+
+                    
+                    DataRow previewDTRow = previewDT.NewRow();
+                    int lastColumnIndex = activeWorkSheet.Dimension.End.Column;
+                    for (int columnIndex = 2; columnIndex <= lastColumnIndex; columnIndex++)
+                    {
+                        string columnName = activeWorkSheet.Cells[3,columnIndex].GetValue<string>();
+                        previewDTRow[columnName] = activeWorkSheet.Cells[4, columnIndex].GetValue<string>();
+                    }
+                    previewDT.Rows.Add(previewDTRow);
+                    radGrid.DataSource = previewDT;
+                    InitializeDataGridView();
 
                     btn_Browse.Enabled = true;
                     btnUploadFile.Enabled = true;
+
+                    activeWorkSheet.Dispose();
+                    pck.Dispose();
+                    openFile.Dispose();
                     this.progressIndicatorBrowse.Image = null;
                 }
             }
@@ -164,6 +162,75 @@ namespace FileLoader
                 lblMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10);
                 btn_Browse.Enabled = true;
                 btnUploadFile.Enabled = true;
+            }
+        }
+
+
+        private void btnUploadFile_Click(object sender, EventArgs e)
+        {
+            lblMessage.Text = "";
+            btn_Browse.Enabled = false;
+            btnUploadFile.Enabled = false;
+
+            using (var clientContext = new ClientContext(System.Configuration.ConfigurationManager.AppSettings["G23SiteURL"]))
+            {
+                this.progressIndicator.Image = Properties.Resources.ProgressUpload;
+
+                SecureString securePassWd = new SecureString();
+                foreach (var c in this.OUser.Password.ToCharArray())
+                {
+                    securePassWd.AppendChar(c);
+                }
+                clientContext.Credentials = new SharePointOnlineCredentials(this.OUser.UserName, securePassWd);
+
+                var summaryList = clientContext.Web.Lists.GetByTitle(System.Configuration.ConfigurationManager.AppSettings["G23SummaryListName"]);
+
+                var user = usersRadDropDownList.SelectedItem.ToString();
+                DateTime date = dateUploaded.Value;
+
+
+                //test insert section
+                ListItemCreationInformation listCreationInformation = new ListItemCreationInformation();
+                ListItem oListItem = summaryList.AddItem(listCreationInformation);
+                FieldCollection listFields = summaryList.Fields;
+                clientContext.Load(listFields, fields => fields.Include(field => field.InternalName, field => field.Title));
+
+                clientContext.ExecuteQuery();
+
+                oListItem["Title"] = user;
+                oListItem[summaryList.GetListFieldInternalName("Date", this.OUser)] = date;
+
+                foreach (GridViewRowInfo rowInfo in radGrid.Rows)
+                {
+                    foreach(GridViewCellInfo cellInfo in rowInfo.Cells)
+                    {
+                        string columnNameData = cellInfo.ColumnInfo.Name;
+                        string valueData = cellInfo.Value.ToString();
+                        oListItem[columnNameData] = valueData;
+                    }
+                }
+
+                /*for (int i = 0; i < fieldMappings.Count; i++)
+                {
+                    var internalFieldName = summaryList.GetListFieldInternalName(fieldMappings[i].SharePointListField, this.OUser);
+                    if (!string.IsNullOrEmpty(internalFieldName))
+                        for (int j = 0; j < radGrid.Columns.Count; j++)
+                        {
+                            if (radGrid.Columns[j].Name == fieldMappings[i].SharePointListField)
+                                oListItem[internalFieldName] = radGrid.Columns[j].DistinctValues[0];
+                        }
+                }*/
+
+                oListItem.Update();
+                clientContext.ExecuteQuery();
+
+                lblMessage.Text = "Your file has be uploaded to " + System.Configuration.ConfigurationManager.AppSettings["DocumentLibraryName"] + " Document Library successfully.";
+                lblMessage.ForeColor = System.Drawing.Color.Green;
+                lblMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10);
+
+                btn_Browse.Enabled = true;
+                btnUploadFile.Enabled = true;
+                this.progressIndicator.Image = null;
             }
         }
 
@@ -228,5 +295,7 @@ namespace FileLoader
             }
             return mappings;
         }
+
+        
     }
 }
