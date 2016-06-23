@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(G23Form));
-            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition4 = new Telerik.WinControls.UI.TableViewDefinition();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition3 = new Telerik.WinControls.UI.TableViewDefinition();
             this.txtFilePath = new Telerik.WinControls.UI.RadTextBoxControl();
             this.label1 = new System.Windows.Forms.Label();
             this.usersRadDropDownList = new Telerik.WinControls.UI.RadDropDownList();
@@ -41,6 +41,7 @@
             this.lblDate = new System.Windows.Forms.Label();
             this.radGrid = new Telerik.WinControls.UI.RadGridView();
             this.progressIndicator = new System.Windows.Forms.PictureBox();
+            this.lblGridHeader = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.txtFilePath)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.usersRadDropDownList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.progressIndicatorBrowse)).BeginInit();
@@ -150,7 +151,7 @@
             // 
             // 
             this.radGrid.MasterTemplate.AllowAddNewRow = false;
-            this.radGrid.MasterTemplate.ViewDefinition = tableViewDefinition4;
+            this.radGrid.MasterTemplate.ViewDefinition = tableViewDefinition3;
             this.radGrid.Name = "radGrid";
             this.radGrid.ReadOnly = true;
             this.radGrid.Size = new System.Drawing.Size(1000, 150);
@@ -166,11 +167,22 @@
             this.progressIndicator.TabIndex = 34;
             this.progressIndicator.TabStop = false;
             // 
+            // lblGridHeader
+            // 
+            this.lblGridHeader.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGridHeader.Location = new System.Drawing.Point(255, 126);
+            this.lblGridHeader.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblGridHeader.Name = "lblGridHeader";
+            this.lblGridHeader.Size = new System.Drawing.Size(315, 39);
+            this.lblGridHeader.TabIndex = 35;
+            this.lblGridHeader.Text = "Review Uploaded Data";
+            // 
             // G23Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1192, 773);
+            this.Controls.Add(this.lblGridHeader);
             this.Controls.Add(this.progressIndicator);
             this.Controls.Add(this.radGrid);
             this.Controls.Add(this.lblDate);
@@ -211,5 +223,6 @@
         private System.Windows.Forms.Label lblDate;
         private Telerik.WinControls.UI.RadGridView radGrid;
         private System.Windows.Forms.PictureBox progressIndicator;
+        private System.Windows.Forms.Label lblGridHeader;
     }
 }

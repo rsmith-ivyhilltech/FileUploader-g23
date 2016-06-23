@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition1 = new Telerik.WinControls.UI.TableViewDefinition();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition2 = new Telerik.WinControls.UI.TableViewDefinition();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileUploaderForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -171,7 +171,7 @@
             // 
             // 
             this.radGrid.MasterTemplate.AllowAddNewRow = false;
-            this.radGrid.MasterTemplate.ViewDefinition = tableViewDefinition1;
+            this.radGrid.MasterTemplate.ViewDefinition = tableViewDefinition2;
             this.radGrid.Name = "radGrid";
             this.radGrid.ReadOnly = true;
             this.radGrid.Size = new System.Drawing.Size(1000, 150);

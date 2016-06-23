@@ -1,19 +1,14 @@
-﻿using Microsoft.Office.Interop.Excel;
+﻿
 using Microsoft.SharePoint.Client;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Security;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using FileLoader.Helpers;
 using System.Configuration;
-using System.Xml.Serialization;
-using System.Xml;
 using System.IO;
 using Telerik.WinControls.UI;
 using OfficeOpenXml;
@@ -113,44 +108,41 @@ namespace FileLoader
                 openFile.Filter = "(.xlsx)|*.xlsx";
                 if (openFile.ShowDialog() == DialogResult.OK)
                 {
-                    //FileInfo newFile = new FileInfo(openFile.FileName);
                     this.progressIndicatorBrowse.Image = Properties.Resources.ProgressBrowse;
 
                     txtFilePath.Text = openFile.FileName;
-                    //begin eeplus test
-                    ExcelPackage pck = new ExcelPackage(openFile.OpenFile());
-                    
-                    var activeWorkSheet = pck.Workbook.Worksheets["Summary"];
-
-
-                    var ColumnNameRange = activeWorkSheet.Cells["B3:DC3"];
-                    var TotalNameRange = activeWorkSheet.Cells["B4:DC4"];
-                    //string firstoutput = activeWorkSheet.Cells["B2"].Value.ToString();
-                    //MessageBox.Show(firstoutput);
-                    System.Data.DataTable previewDT = new System.Data.DataTable();
-                    foreach (var cell in ColumnNameRange)
+                    var fileTest = new FileInfo(openFile.FileName);
+                    //begin eeplus read
+                    using (var pck = new ExcelPackage(fileTest))
                     {
-                        previewDT.Columns.Add(cell.GetValue<string>(), typeof(string));
+                        var activeWorkSheet = pck.Workbook.Worksheets["Summary"];
+
+
+                        var ColumnNameRange = activeWorkSheet.Cells["B3:DC3"];
+                        var TotalNameRange = activeWorkSheet.Cells["B4:DC4"];
+
+                        DataTable previewDT = new DataTable();
+                        foreach (var cell in ColumnNameRange)
+                        {
+                            previewDT.Columns.Add(cell.GetValue<string>(), typeof(string));
+                        }
+
+
+                        DataRow previewDTRow = previewDT.NewRow();
+                        int lastColumnIndex = activeWorkSheet.Dimension.End.Column;
+                        for (int columnIndex = 2; columnIndex <= lastColumnIndex; columnIndex++)
+                        {
+                            string columnName = activeWorkSheet.Cells[3, columnIndex].GetValue<string>();
+                            previewDTRow[columnName] = activeWorkSheet.Cells[4, columnIndex].GetValue<string>();
+                        }
+                        previewDT.Rows.Add(previewDTRow);
+                        radGrid.DataSource = previewDT;
+                        InitializeDataGridView();
+
+                        btn_Browse.Enabled = true;
+                        btnUploadFile.Enabled = true;
                     }
 
-                    
-                    DataRow previewDTRow = previewDT.NewRow();
-                    int lastColumnIndex = activeWorkSheet.Dimension.End.Column;
-                    for (int columnIndex = 2; columnIndex <= lastColumnIndex; columnIndex++)
-                    {
-                        string columnName = activeWorkSheet.Cells[3,columnIndex].GetValue<string>();
-                        previewDTRow[columnName] = activeWorkSheet.Cells[4, columnIndex].GetValue<string>();
-                    }
-                    previewDT.Rows.Add(previewDTRow);
-                    radGrid.DataSource = previewDT;
-                    InitializeDataGridView();
-
-                    btn_Browse.Enabled = true;
-                    btnUploadFile.Enabled = true;
-
-                    activeWorkSheet.Dispose();
-                    pck.Dispose();
-                    openFile.Dispose();
                     this.progressIndicatorBrowse.Image = null;
                 }
             }
@@ -184,12 +176,30 @@ namespace FileLoader
                 clientContext.Credentials = new SharePointOnlineCredentials(this.OUser.UserName, securePassWd);
 
                 var summaryList = clientContext.Web.Lists.GetByTitle(System.Configuration.ConfigurationManager.AppSettings["G23SummaryListName"]);
+                var docLibrary = clientContext.Web.Lists.GetByTitle(System.Configuration.ConfigurationManager.AppSettings["G23DocumentLibraryName"]);
 
+                var docitemName = openFile.FileName;
                 var user = usersRadDropDownList.SelectedItem.ToString();
                 DateTime date = dateUploaded.Value;
 
+                //Insert DocumentLibrary
+                StringBuilder temp = new StringBuilder();
+                temp.Append(date.Year.ToString()).Append(date.Month.ToString()).Append(date.Day.ToString()).Append("-").Append(user).Append(".").Append("xlsx");
+                this.FileName = temp.ToString();
+                var fileUrl = string.Empty;
 
-                //test insert section
+                using (var fs = new FileStream(docitemName, FileMode.Open))
+                {
+                    var fi = new FileInfo(docitemName);
+
+                    clientContext.Load(docLibrary.RootFolder);
+                    clientContext.ExecuteQuery();
+                    fileUrl = String.Format("{0}/{1}", docLibrary.RootFolder.ServerRelativeUrl, this.FileName);
+                    Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, fileUrl, fs, true);
+                    clientContext.ExecuteQuery();
+                }
+
+                //Insert Summary
                 ListItemCreationInformation listCreationInformation = new ListItemCreationInformation();
                 ListItem oListItem = summaryList.AddItem(listCreationInformation);
                 FieldCollection listFields = summaryList.Fields;
@@ -210,17 +220,6 @@ namespace FileLoader
                     }
                 }
 
-                /*for (int i = 0; i < fieldMappings.Count; i++)
-                {
-                    var internalFieldName = summaryList.GetListFieldInternalName(fieldMappings[i].SharePointListField, this.OUser);
-                    if (!string.IsNullOrEmpty(internalFieldName))
-                        for (int j = 0; j < radGrid.Columns.Count; j++)
-                        {
-                            if (radGrid.Columns[j].Name == fieldMappings[i].SharePointListField)
-                                oListItem[internalFieldName] = radGrid.Columns[j].DistinctValues[0];
-                        }
-                }*/
-
                 oListItem.Update();
                 clientContext.ExecuteQuery();
 
@@ -233,69 +232,8 @@ namespace FileLoader
                 this.progressIndicator.Image = null;
             }
         }
-
-        /// <summary>
-        /// Loads Excel Data from Excel Workbook Named Ranges
-        /// </summary>
-        /// <param name="namedRange"></param>
-        public void LoadData(List<Name> namedRange)
-        {
-            var mappedField = string.Empty;
-            string strCellData = "";
-            int colCnt = 0;
-            System.Data.DataTable dt = new System.Data.DataTable();
-
-            for (colCnt = 0; colCnt <= namedRange.Count - 1; colCnt++)
-            {
-                string strColumn = "";
-                strColumn = Convert.ToString(namedRange[colCnt].Name);
-                dt.Columns.Add(strColumn, typeof(string));
-            }
-
-            string strData = "";
-            for (colCnt = 0; colCnt <= namedRange.Count - 1; colCnt++)
-            {
-                try
-                {
-                    strCellData = Convert.ToString(namedRange[colCnt].RefersToRange.Value2);
-                    strData += strCellData + "|";
-                }
-                catch (Exception ex)
-                {
-                    throw new FormatException("Invalid Excel Format Exception " + ex.Message);
-                }
-            }
-            strData = strData.Remove(strData.Length - 1, 1);
-            dt.Rows.Add(strData.Split('|'));
-
-            radGrid.DataSource = dt.DefaultView;
-        }
-
-        /// <summary>
-        /// Parses Field Mapping XML into List of Mapping
-        /// </summary>
-        /// <returns></returns>
-        public static List<Mapping> ParseXML()
-        {
-            FieldSetMapping fieldsetMapping;
-            List<FieldSet> fieldSets = new List<FieldSet>();
-            List<Mapping> mappings = new List<Mapping>();
-
-            var serializer = new XmlSerializer(typeof(FieldSetMapping));
-            using (var stream = new StreamReader("FieldSetsG23.xml"))
-            using (var reader = XmlReader.Create(stream))
-            {
-                fieldsetMapping = (FieldSetMapping)serializer.Deserialize(reader);
-            }
-
-            fieldSets = fieldsetMapping.FieldSets;
-            foreach (FieldSet f in fieldSets)
-            {
-                mappings = f.Mappings;
-            }
-            return mappings;
-        }
-
         
+        
+                
     }
 }
