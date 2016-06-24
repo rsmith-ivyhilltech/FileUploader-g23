@@ -383,8 +383,9 @@ namespace FileLoader
                     fileItemitem["Summary"] = itemID;                    
                     fileItemitem.Update();
                     clientContext.ExecuteQuery();
-                        
-                    lblMessage.Text = "Your file has be uploaded to " + System.Configuration.ConfigurationManager.AppSettings["DocumentLibraryName"] + " Document Library successfully.";
+
+                    lblMessage.Text = "Your file has be uploaded to the Source File Document Library successfully.";
+                    //lblMessage.Text = "Your file has be uploaded to " + System.Configuration.ConfigurationManager.AppSettings["DocumentLibraryName"] + " Document Library successfully.";
                     lblMessage.ForeColor = System.Drawing.Color.Green;
                     lblMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10);
 

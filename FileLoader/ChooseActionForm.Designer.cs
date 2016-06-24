@@ -65,9 +65,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::FileLoader.Properties.Resources.IvyhillBG;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(732, 406);
             this.Controls.Add(this.selectionActionButton);
             this.Controls.Add(this.selectActionRadDropDownList);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ChooseActionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
