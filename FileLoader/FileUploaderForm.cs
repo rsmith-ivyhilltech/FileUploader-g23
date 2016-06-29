@@ -292,6 +292,8 @@ namespace FileLoader
                     var site = cbx_Site.SelectedItem.ToString();
                     var analyst = cbx_Analyst.SelectedItem.ToString();
                     DateTime date = dateUploaded.Value;
+
+                    //insert document library
                     StringBuilder temp = new StringBuilder();
                     temp.Append(date.Year.ToString()).Append(date.Month.ToString()).Append(date.Day.ToString()).Append("-").Append(site).Append("-").Append(analyst).Append(".").Append("xlsx");
                     this.FileName = temp.ToString();

@@ -124,7 +124,7 @@ namespace FileLoader
                 {
                     try
                     {
-                        System.Uri Office365URL = new Uri(ConfigurationManager.AppSettings["SiteURL"]);
+                        System.Uri Office365URL = new Uri(ConfigurationManager.AppSettings["LoginURL"]);
                         SecureString pass = new SecureString();
                         foreach (char c in txtPassword.Text) pass.AppendChar(c);
 

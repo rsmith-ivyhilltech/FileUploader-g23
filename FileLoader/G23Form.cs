@@ -66,13 +66,17 @@ namespace FileLoader
                 clientContext.Load(items);
                 clientContext.ExecuteQuery();
 
+                usersRadDropDownList.Items.Add("Select User");
                 foreach (Microsoft.SharePoint.Client.ListItem listItem in items)
                 {
-                    usersRadDropDownList.Items.Add(listItem["Name"].ToString());
+                    //Yes = True, No = False
+                    if (listItem["Active"].ToString() == "True")
+                    {
+                        usersRadDropDownList.Items.Add(listItem["Name"].ToString());
+                    }
                 }
-
-                this.usersRadDropDownList.SelectedIndex = -1;
-                this.usersRadDropDownList.Text = "Select User";
+                //Set default item
+                usersRadDropDownList.SelectedIndex = 0;
 
             }
 
@@ -101,8 +105,9 @@ namespace FileLoader
             try
             {
                 lblMessage.Text = "";
-                btn_Browse.Enabled = false;
-                btnUploadFile.Enabled = false;
+                //old logic
+                //btn_Browse.Enabled = false;
+                //btnUploadFile.Enabled = false;
 
                 openFile.DefaultExt = ".xlsx";
                 openFile.Filter = "(.xlsx)|*.xlsx";
@@ -160,78 +165,121 @@ namespace FileLoader
 
         private void btnUploadFile_Click(object sender, EventArgs e)
         {
-            lblMessage.Text = "";
-            btn_Browse.Enabled = false;
-            btnUploadFile.Enabled = false;
-
-            using (var clientContext = new ClientContext(System.Configuration.ConfigurationManager.AppSettings["G23SiteURL"]))
+            if (txtFilePath.Text == string.Empty)
             {
-                this.progressIndicator.Image = Properties.Resources.ProgressUpload;
-
-                SecureString securePassWd = new SecureString();
-                foreach (var c in this.OUser.Password.ToCharArray())
-                {
-                    securePassWd.AppendChar(c);
-                }
-                clientContext.Credentials = new SharePointOnlineCredentials(this.OUser.UserName, securePassWd);
-
-                var summaryList = clientContext.Web.Lists.GetByTitle(System.Configuration.ConfigurationManager.AppSettings["G23SummaryListName"]);
-                var docLibrary = clientContext.Web.Lists.GetByTitle(System.Configuration.ConfigurationManager.AppSettings["G23DocumentLibraryName"]);
-
-                var docitemName = openFile.FileName;
-                var user = usersRadDropDownList.SelectedItem.ToString();
-                DateTime date = dateUploaded.Value;
-
-                //Insert DocumentLibrary
-                StringBuilder temp = new StringBuilder();
-                temp.Append(date.Year.ToString()).Append(date.Month.ToString()).Append(date.Day.ToString()).Append("-").Append(user).Append(".").Append("xlsx");
-                this.FileName = temp.ToString();
-                var fileUrl = string.Empty;
-
-                using (var fs = new FileStream(docitemName, FileMode.Open))
-                {
-                    var fi = new FileInfo(docitemName);
-
-                    clientContext.Load(docLibrary.RootFolder);
-                    clientContext.ExecuteQuery();
-                    fileUrl = String.Format("{0}/{1}", docLibrary.RootFolder.ServerRelativeUrl, this.FileName);
-                    Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, fileUrl, fs, true);
-                    clientContext.ExecuteQuery();
-                }
-
-                //Insert Summary
-                ListItemCreationInformation listCreationInformation = new ListItemCreationInformation();
-                ListItem oListItem = summaryList.AddItem(listCreationInformation);
-                FieldCollection listFields = summaryList.Fields;
-                clientContext.Load(listFields, fields => fields.Include(field => field.InternalName, field => field.Title));
-
-                clientContext.ExecuteQuery();
-
-                oListItem["Title"] = user;
-                oListItem[summaryList.GetListFieldInternalName("Date", this.OUser)] = date;
-
-                foreach (GridViewRowInfo rowInfo in radGrid.Rows)
-                {
-                    foreach(GridViewCellInfo cellInfo in rowInfo.Cells)
-                    {
-                        string columnNameData = cellInfo.ColumnInfo.Name;
-                        string valueData = cellInfo.Value.ToString();
-                        oListItem[columnNameData] = valueData;
-                    }
-                }
-
-                oListItem.Update();
-                clientContext.ExecuteQuery();
-
-                lblMessage.Text = "Your file has be uploaded to the Source File Document Library successfully.";
-                //lblMessage.Text = "Your file has be uploaded to " + System.Configuration.ConfigurationManager.AppSettings["G23DocumentLibraryName"] + " Document Library successfully.";
-                lblMessage.ForeColor = System.Drawing.Color.Green;
-                lblMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10);
-
-                btn_Browse.Enabled = true;
-                btnUploadFile.Enabled = true;
-                this.progressIndicator.Image = null;
+                MessageBox.Show("No filed selected to load.");
             }
+            else if(usersRadDropDownList.SelectedItem.Text == "Select User")
+            {
+                MessageBox.Show("Select A User.");
+            }
+            else if (dateUploaded.Text == string.Empty)
+            {
+                MessageBox.Show("Select A Date.");
+            }
+            else
+            {
+                lblMessage.Text = "";
+                btn_Browse.Enabled = false;
+                btnUploadFile.Enabled = false;
+
+                using (var clientContext = new ClientContext(System.Configuration.ConfigurationManager.AppSettings["G23SiteURL"]))
+                {
+                    this.progressIndicator.Image = Properties.Resources.ProgressUpload;
+
+                    SecureString securePassWd = new SecureString();
+                    foreach (var c in this.OUser.Password.ToCharArray())
+                    {
+                        securePassWd.AppendChar(c);
+                    }
+                    clientContext.Credentials = new SharePointOnlineCredentials(this.OUser.UserName, securePassWd);
+
+                    var summaryList = clientContext.Web.Lists.GetByTitle(System.Configuration.ConfigurationManager.AppSettings["G23SummaryListName"]);
+                    var docLibrary = clientContext.Web.Lists.GetByTitle(System.Configuration.ConfigurationManager.AppSettings["G23DocumentLibraryName"]);
+
+                    var docitemName = openFile.FileName;
+                    var user = usersRadDropDownList.SelectedItem.ToString();
+                    DateTime date = dateUploaded.Value;
+
+                    //Insert DocumentLibrary
+                    StringBuilder temp = new StringBuilder();
+                    temp.Append(date.Year.ToString()).Append(date.Month.ToString()).Append(date.Day.ToString()).Append("-").Append(user).Append(".").Append("xlsx");
+                    this.FileName = temp.ToString();
+                    string fileWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(this.FileName);
+                    var fileUrl = string.Empty;
+
+                    using (var fs = new FileStream(docitemName, FileMode.Open))
+                    {
+                        var fi = new FileInfo(docitemName);
+
+                        clientContext.Load(docLibrary.RootFolder);
+                        clientContext.ExecuteQuery();
+                        fileUrl = String.Format("{0}/{1}", docLibrary.RootFolder.ServerRelativeUrl, this.FileName);
+                        Microsoft.SharePoint.Client.File.SaveBinaryDirect(clientContext, fileUrl, fs, true);
+                        clientContext.ExecuteQuery();
+                    }
+
+                    var web = clientContext.Web;
+                    var file = web.GetFileByServerRelativeUrl(fileUrl);
+
+                    var fileItemitem = file.ListItemAllFields;
+                    fileItemitem["Title"] = fileWithoutExtension;
+                    fileItemitem.Update();
+
+                    //gets lookup ID of the Document that was just uploaded
+                    //This lookup ID is passed into the Summary Table
+                    var DocumentTitleId = 0;
+                    clientContext.Load(docLibrary, oList => oList.DefaultViewUrl);
+                    CamlQuery query = CamlQuery.CreateAllItemsQuery(100);
+                    Microsoft.SharePoint.Client.ListItemCollection items = docLibrary.GetItems(query);
+                    clientContext.Load(items);
+                    clientContext.ExecuteQuery();
+                    foreach (ListItem item in items)
+                    {
+                        if (item["Title"].ToString() == fileWithoutExtension)
+                        {
+                            DocumentTitleId = Convert.ToInt32(item["ID"]);
+                            break;
+                        }
+                    }
+
+
+                    //Insert Summary
+                    ListItemCreationInformation listCreationInformation = new ListItemCreationInformation();
+                    ListItem oListItem = summaryList.AddItem(listCreationInformation);
+                    FieldCollection listFields = summaryList.Fields;
+                    clientContext.Load(listFields, fields => fields.Include(field => field.InternalName, field => field.Title));
+
+                    clientContext.ExecuteQuery();
+
+                    oListItem["Title"] = user;
+                    oListItem[summaryList.GetListFieldInternalName("Date", this.OUser)] = date;
+                    oListItem["SourceFile"] = DocumentTitleId;
+
+                    foreach (GridViewRowInfo rowInfo in radGrid.Rows)
+                    {
+                        foreach (GridViewCellInfo cellInfo in rowInfo.Cells)
+                        {
+                            string columnNameData = cellInfo.ColumnInfo.Name;
+                            string valueData = cellInfo.Value.ToString();
+                            oListItem[columnNameData] = valueData;
+                        }
+                    }
+
+                    oListItem.Update();
+                    clientContext.ExecuteQuery();
+
+                    lblMessage.Text = "Your file has be uploaded to the Source File Document Library successfully.";
+                    //lblMessage.Text = "Your file has be uploaded to " + System.Configuration.ConfigurationManager.AppSettings["G23DocumentLibraryName"] + " Document Library successfully.";
+                    lblMessage.ForeColor = System.Drawing.Color.Green;
+                    lblMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10);
+
+                    btn_Browse.Enabled = true;
+                    btnUploadFile.Enabled = true;
+                    this.progressIndicator.Image = null;
+                }
+            }
+            
         }
         
         

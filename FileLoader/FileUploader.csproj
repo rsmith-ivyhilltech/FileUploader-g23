@@ -177,7 +177,6 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="Resources\ivyhill-icon-1c-color-medium.png" />
-    <None Include="Resources\IvyHillBG.bmp" />
     <None Include="Resources\ProgressUpload.gif" />
     <None Include="Resources\ProgressBrowse.gif" />
   </ItemGroup>

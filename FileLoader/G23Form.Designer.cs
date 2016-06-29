@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(G23Form));
-            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition3 = new Telerik.WinControls.UI.TableViewDefinition();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition1 = new Telerik.WinControls.UI.TableViewDefinition();
             this.txtFilePath = new Telerik.WinControls.UI.RadTextBoxControl();
             this.label1 = new System.Windows.Forms.Label();
             this.usersRadDropDownList = new Telerik.WinControls.UI.RadDropDownList();
@@ -53,6 +53,7 @@
             // 
             // txtFilePath
             // 
+            this.txtFilePath.IsReadOnly = true;
             this.txtFilePath.Location = new System.Drawing.Point(70, 70);
             this.txtFilePath.Name = "txtFilePath";
             this.txtFilePath.Size = new System.Drawing.Size(500, 30);
@@ -151,7 +152,7 @@
             // 
             // 
             this.radGrid.MasterTemplate.AllowAddNewRow = false;
-            this.radGrid.MasterTemplate.ViewDefinition = tableViewDefinition3;
+            this.radGrid.MasterTemplate.ViewDefinition = tableViewDefinition1;
             this.radGrid.Name = "radGrid";
             this.radGrid.ReadOnly = true;
             this.radGrid.Size = new System.Drawing.Size(1000, 150);
