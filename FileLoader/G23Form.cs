@@ -230,7 +230,7 @@ namespace FileLoader
                     //This lookup ID is passed into the Summary Table
                     var DocumentTitleId = 0;
                     clientContext.Load(docLibrary, oList => oList.DefaultViewUrl);
-                    CamlQuery query = CamlQuery.CreateAllItemsQuery(100);
+                    CamlQuery query = CamlQuery.CreateAllItemsQuery();
                     Microsoft.SharePoint.Client.ListItemCollection items = docLibrary.GetItems(query);
                     clientContext.Load(items);
                     clientContext.ExecuteQuery();
