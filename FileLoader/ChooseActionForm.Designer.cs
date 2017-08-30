@@ -44,18 +44,22 @@
             // 
             // selectActionRadDropDownList
             // 
-            this.selectActionRadDropDownList.Location = new System.Drawing.Point(101, 93);
+            this.selectActionRadDropDownList.DropDownHeight = 71;
+            this.selectActionRadDropDownList.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.selectActionRadDropDownList.Location = new System.Drawing.Point(67, 60);
+            this.selectActionRadDropDownList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.selectActionRadDropDownList.Name = "selectActionRadDropDownList";
-            this.selectActionRadDropDownList.Size = new System.Drawing.Size(301, 27);
+            this.selectActionRadDropDownList.Size = new System.Drawing.Size(201, 15);
             this.selectActionRadDropDownList.TabIndex = 1;
             // 
             // selectionActionButton
             // 
             this.selectionActionButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.selectionActionButton.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.selectionActionButton.Location = new System.Drawing.Point(424, 80);
+            this.selectionActionButton.Location = new System.Drawing.Point(283, 52);
+            this.selectionActionButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.selectionActionButton.Name = "selectionActionButton";
-            this.selectionActionButton.Size = new System.Drawing.Size(200, 50);
+            this.selectionActionButton.Size = new System.Drawing.Size(133, 32);
             this.selectionActionButton.TabIndex = 2;
             this.selectionActionButton.Text = "Go To Action";
             this.selectionActionButton.UseVisualStyleBackColor = false;
@@ -63,15 +67,16 @@
             // 
             // ChooseActionForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::FileLoader.Properties.Resources.IvyhillBG;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(732, 406);
+            this.ClientSize = new System.Drawing.Size(488, 264);
             this.Controls.Add(this.selectionActionButton);
             this.Controls.Add(this.selectActionRadDropDownList);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "ChooseActionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "O365 Choose Action";

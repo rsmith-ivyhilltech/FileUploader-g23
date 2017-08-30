@@ -54,37 +54,41 @@
             // txtFilePath
             // 
             this.txtFilePath.IsReadOnly = true;
-            this.txtFilePath.Location = new System.Drawing.Point(70, 70);
+            this.txtFilePath.Location = new System.Drawing.Point(47, 45);
+            this.txtFilePath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtFilePath.Name = "txtFilePath";
-            this.txtFilePath.Size = new System.Drawing.Size(500, 30);
+            this.txtFilePath.Size = new System.Drawing.Size(333, 19);
             this.txtFilePath.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(70, 380);
+            this.label1.Location = new System.Drawing.Point(47, 247);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 24);
+            this.label1.Size = new System.Drawing.Size(39, 17);
             this.label1.TabIndex = 1;
             this.label1.Text = "Users";
             // 
             // usersRadDropDownList
             // 
             this.usersRadDropDownList.AutoSize = false;
-            this.usersRadDropDownList.Location = new System.Drawing.Point(255, 370);
+            this.usersRadDropDownList.DropDownHeight = 71;
+            this.usersRadDropDownList.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.usersRadDropDownList.Location = new System.Drawing.Point(170, 240);
+            this.usersRadDropDownList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.usersRadDropDownList.Name = "usersRadDropDownList";
-            this.usersRadDropDownList.Size = new System.Drawing.Size(250, 30);
+            this.usersRadDropDownList.Size = new System.Drawing.Size(167, 20);
             this.usersRadDropDownList.TabIndex = 2;
             // 
             // btn_Browse
             // 
             this.btn_Browse.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btn_Browse.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Browse.Location = new System.Drawing.Point(630, 70);
-            this.btn_Browse.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_Browse.Location = new System.Drawing.Point(420, 45);
             this.btn_Browse.Name = "btn_Browse";
-            this.btn_Browse.Size = new System.Drawing.Size(200, 50);
+            this.btn_Browse.Size = new System.Drawing.Size(133, 32);
             this.btn_Browse.TabIndex = 22;
             this.btn_Browse.Text = "Browse";
             this.btn_Browse.UseVisualStyleBackColor = false;
@@ -94,10 +98,9 @@
             // 
             this.btnUploadFile.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btnUploadFile.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUploadFile.Location = new System.Drawing.Point(70, 550);
-            this.btnUploadFile.Margin = new System.Windows.Forms.Padding(4);
+            this.btnUploadFile.Location = new System.Drawing.Point(47, 357);
             this.btnUploadFile.Name = "btnUploadFile";
-            this.btnUploadFile.Size = new System.Drawing.Size(200, 50);
+            this.btnUploadFile.Size = new System.Drawing.Size(133, 32);
             this.btnUploadFile.TabIndex = 23;
             this.btnUploadFile.Text = "Upload File";
             this.btnUploadFile.UseVisualStyleBackColor = false;
@@ -106,28 +109,29 @@
             // progressIndicatorBrowse
             // 
             this.progressIndicatorBrowse.Image = ((System.Drawing.Image)(resources.GetObject("progressIndicatorBrowse.Image")));
-            this.progressIndicatorBrowse.Location = new System.Drawing.Point(112, 110);
+            this.progressIndicatorBrowse.Location = new System.Drawing.Point(75, 71);
+            this.progressIndicatorBrowse.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.progressIndicatorBrowse.Name = "progressIndicatorBrowse";
-            this.progressIndicatorBrowse.Size = new System.Drawing.Size(65, 65);
+            this.progressIndicatorBrowse.Size = new System.Drawing.Size(43, 42);
             this.progressIndicatorBrowse.TabIndex = 30;
             this.progressIndicatorBrowse.TabStop = false;
             // 
             // lblMessage
             // 
             this.lblMessage.AutoSize = true;
-            this.lblMessage.Location = new System.Drawing.Point(70, 625);
+            this.lblMessage.Location = new System.Drawing.Point(47, 406);
+            this.lblMessage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(0, 20);
+            this.lblMessage.Size = new System.Drawing.Size(0, 13);
             this.lblMessage.TabIndex = 25;
             // 
             // dateUploaded
             // 
             this.dateUploaded.AutoSize = false;
             this.dateUploaded.Font = new System.Drawing.Font("Calibri", 10F);
-            this.dateUploaded.Location = new System.Drawing.Point(255, 430);
-            this.dateUploaded.Margin = new System.Windows.Forms.Padding(4);
+            this.dateUploaded.Location = new System.Drawing.Point(170, 279);
             this.dateUploaded.Name = "dateUploaded";
-            this.dateUploaded.Size = new System.Drawing.Size(250, 30);
+            this.dateUploaded.Size = new System.Drawing.Size(167, 19);
             this.dateUploaded.TabIndex = 31;
             this.dateUploaded.TabStop = false;
             this.dateUploaded.Text = "Thursday, July 16, 2015";
@@ -136,18 +140,16 @@
             // lblDate
             // 
             this.lblDate.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDate.Location = new System.Drawing.Point(70, 440);
-            this.lblDate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDate.Location = new System.Drawing.Point(47, 286);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(100, 30);
+            this.lblDate.Size = new System.Drawing.Size(67, 19);
             this.lblDate.TabIndex = 32;
             this.lblDate.Text = "Date Uploaded";
             // 
             // radGrid
             // 
             this.radGrid.Font = new System.Drawing.Font("Calibri", 10F);
-            this.radGrid.Location = new System.Drawing.Point(70, 180);
-            this.radGrid.Margin = new System.Windows.Forms.Padding(4);
+            this.radGrid.Location = new System.Drawing.Point(47, 117);
             // 
             // 
             // 
@@ -155,34 +157,34 @@
             this.radGrid.MasterTemplate.ViewDefinition = tableViewDefinition1;
             this.radGrid.Name = "radGrid";
             this.radGrid.ReadOnly = true;
-            this.radGrid.Size = new System.Drawing.Size(1000, 150);
+            this.radGrid.Size = new System.Drawing.Size(667, 97);
             this.radGrid.TabIndex = 33;
             this.radGrid.Text = "Data Grid";
             // 
             // progressIndicator
             // 
             this.progressIndicator.Image = global::FileLoader.Properties.Resources.ProgressUpload;
-            this.progressIndicator.Location = new System.Drawing.Point(334, 550);
+            this.progressIndicator.Location = new System.Drawing.Point(223, 357);
+            this.progressIndicator.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.progressIndicator.Name = "progressIndicator";
-            this.progressIndicator.Size = new System.Drawing.Size(70, 70);
+            this.progressIndicator.Size = new System.Drawing.Size(47, 45);
             this.progressIndicator.TabIndex = 34;
             this.progressIndicator.TabStop = false;
             // 
             // lblGridHeader
             // 
             this.lblGridHeader.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGridHeader.Location = new System.Drawing.Point(255, 126);
-            this.lblGridHeader.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblGridHeader.Location = new System.Drawing.Point(170, 82);
             this.lblGridHeader.Name = "lblGridHeader";
-            this.lblGridHeader.Size = new System.Drawing.Size(315, 39);
+            this.lblGridHeader.Size = new System.Drawing.Size(210, 25);
             this.lblGridHeader.TabIndex = 35;
             this.lblGridHeader.Text = "Review Uploaded Data";
             // 
             // G23Form
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1192, 773);
+            this.ClientSize = new System.Drawing.Size(795, 476);
             this.Controls.Add(this.lblGridHeader);
             this.Controls.Add(this.progressIndicator);
             this.Controls.Add(this.radGrid);
@@ -196,6 +198,7 @@
             this.Controls.Add(this.txtFilePath);
             this.Controls.Add(this.lblMessage);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "G23Form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Office 365 IPO G-23 Uploader";

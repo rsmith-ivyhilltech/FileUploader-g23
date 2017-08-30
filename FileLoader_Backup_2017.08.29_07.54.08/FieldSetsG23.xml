@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<FieldSetsMapping>
+  <FieldSet>
+    <RangeName>RangeName</RangeName>
+    <ExcelColumnName>ExcelColumnName</ExcelColumnName>
+    <!--don't really need this, friendly name for the grid??-->
+    <SharePointListField>SharePointListField</SharePointListField>
+    <Mappings>
+      <Map>
+        <RangeName>ProcClassIM_rcvd</RangeName>
+        <ExcelColumnName>ProcClassIM_rcvd</ExcelColumnName>
+        <SharePointListField>ProcClassIM_rcvd</SharePointListField>
+      </Map>
+      <Map>
+        <RangeName>ProcUnClassIM_rcvd</RangeName>
+        <ExcelColumnName>ProcUnClassIM_rcvd</ExcelColumnName>
+        <SharePointListField>ProcUnClassIM_rcvd</SharePointListField>
+      </Map>
+    </Mappings>
+  </FieldSet>
+</FieldSetsMapping>

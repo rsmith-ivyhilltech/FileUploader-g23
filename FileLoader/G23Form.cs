@@ -122,9 +122,15 @@ namespace FileLoader
                     {
                         var activeWorkSheet = pck.Workbook.Worksheets["Summary"];
 
-
-                        var ColumnNameRange = activeWorkSheet.Cells["B3:DC3"];
-                        var TotalNameRange = activeWorkSheet.Cells["B4:DC4"];
+                        string startColumn = ConfigurationManager.AppSettings["RangeStart"];
+                        string endColumn = ConfigurationManager.AppSettings["RangeEnd"];
+                        string createColumnNameRange = startColumn + "3:" + endColumn + "3";
+                        string createTotalNameRange = startColumn + "4:" + endColumn + "4";
+                        var ColumnNameRange = activeWorkSheet.Cells[createColumnNameRange];
+                        var TotalNameRange = activeWorkSheet.Cells[createTotalNameRange];
+                        //old non dynamic range
+                        //var ColumnNameRange = activeWorkSheet.Cells["B3:DC3"];
+                        //var TotalNameRange = activeWorkSheet.Cells["B4:DC4"];
 
                         DataTable previewDT = new DataTable();
                         foreach (var cell in ColumnNameRange)
